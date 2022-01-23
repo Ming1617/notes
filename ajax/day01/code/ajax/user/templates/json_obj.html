@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script src="/static/js/jquery-1.11.3.js"></script>
+    <button onclick="showJson()">showJson</button>
+
+    <script>
+        function showJson() {
+            // var obj={
+            //     "uname":"wanglaoshi",
+            //     "age":"18",
+            //     "gender":"male"
+            // }
+            // console.log('name:'+obj.uname);
+            // console.log('age:'+obj.age);
+            // console.log('gender:'+obj.gender);
+
+
+            //表达多个json对象
+            var json_arr = [
+                {
+                    "uname": "王老师",
+                    "age": "19",
+                    "nickname": "老王",
+                },
+                {
+                    "uname": "王夫人",
+                    "age": "18",
+                    "nickname": "王富人"
+                }
+            ]
+            /*
+            //js 循环 多个对象
+            for (var i =0;i<json_arr.length;i++){
+                console.log('name:'+json_arr[i].uname)
+                console.log('age:'+json_arr[i].age)
+            }*/
+
+            //jquery-v1 循环多个对象
+            /*
+            $(json_arr).each(function(i,obj){
+                console.log('index:'+i);
+                console.log('uname:'+obj.uname);
+                console.log('age:'+obj.age);
+            })*/
+
+
+            //jquery-v2 循环多个对象
+            $each(json_arr, function (i, obj) {
+                console.log('uname' + obj.uname)
+            });
+
+
+            //xhr拿到响应，响应是json字符串，把json字符串转换为字符串
+            var json_str = '[{"uname": "lili", "age": 18}, {"uname": "panghu", "age": 20}]'
+            console.log(json_obj)
+            var json_obj = JSON.parse(json_str)
+            console.log(json_obj)
+
+        }
+    </script>
+</body>
+
+</html>

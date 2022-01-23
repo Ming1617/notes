@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>get_user</title>
+</head>
+<body>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/jquery-1.11.3.js"></script>
+
+<script>
+    $(function(){
+        $('#btn').click(function(){
+            //1 创建xhr
+            var xhr = createXhr();
+            //2 创建请求
+            xhr.open('get', '/index/get_user_server', true);
+            //3 设置回调
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                var msg = xhr.responseText;
+                var msg_obj = JSON.parse(msg);
+                console.log(msg_obj);
+                //循环 json数组
+                var html = ''
+                $.each(msg_obj, function(i,obj){
+
+                    html += '<tr>';
+                    html += '<td>' + obj.id + '</td>';
+                    html += '<td>' + obj.username + '</td>';
+                    html += '<td>' + obj.pwd + '</td>';
+                    html += '</tr>';
+
+                });
+
+                /*
+                // id_username_pwd|id2_us....
+                var users = msg.split('|');
+                var html = ''
+                for(var i=0; i<users.length; i++){              // id_username_pwd
+                    html += '<tr>';
+                    var info = users[i].split('_');
+                    html += '<td>' + info[0] + '</td>';
+                    html += '<td>' + info[1] + '</td>';
+                    html += '<td>' + info[2] + '</td>';
+                    html += '</tr>';
+                    }*/
+
+                $('#show').html(html);
+                }
+            }
+            //4 send
+            xhr.send(null);
+        });
+    })
+
+
+</script>
+
+
+<button id="btn">显示所有用户</button>
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>pwd</th>
+    </tr>
+    <tbody id="show"></tbody>
+</table>
+
+
+</body>
+</html>

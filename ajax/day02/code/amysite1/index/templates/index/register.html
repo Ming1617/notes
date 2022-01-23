@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+<body>
+<script src="/static/js/jquery-1.11.3.js"></script>
+<script src="/static/js/common.js"></script>
+<script>
+    /*
+    $(function(){
+    //绑定blur
+    $('#uname').blur(function(){
+            //1.创建xhr
+            var xhr = createXhr();
+            //2.创建请求
+            var uname = $('#uname').val();
+            var url = '/index/check_username?username=' + uname;
+            xhr.open('get', url, true);
+            //3.设置回调
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                    $('#show').html(xhr.responseText);
+                }
+            }
+            //4.发送请求
+            xhr.send(null);
+       });
+    }); */
+
+    function checkuname(){
+        // 此方法用于校验用户名，返回true-用户名已存在
+        var ret = false;
+        var xhr = createXhr()
+        var uname = $('#uname').val();
+        var url = '/index/check_username?username=' + uname;
+        xhr.open('get', url, false);
+        xhr.onreadystatechange = function(){
+            if (xhr.readyState == 4 && xhr.status == 200){
+                if (xhr.responseText == '1'){
+                    //用户名已存在
+                    ret = true;
+                    $('#show').html("用户名已存在!")
+                }else{
+
+                    $('#show').html('ok!')
+                }
+            }
+        }
+        //发请求
+        xhr.send(null);
+        return ret;
+    }
+
+    $(function(){
+        //给uname input 绑定blur事件
+        $('#uname').blur(function(){
+            checkuname()
+        });
+        //给btn 绑定click事件
+        $('#btn').click(function(){
+            if (checkuname()){
+                alert('用户名已存在,不能注册')
+            }else{
+                //发注册请求
+                var xhr = createXhr();
+                //创建请求
+                xhr.open('post', '/index/register', true);
+                //设置回调
+                xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                       alert(xhr.responseText);
+
+                    }
+
+                }
+
+           //改request content-type
+           xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+           //拼凑post表单提交的数据
+           var uname = $('#uname').val();
+           var pwd = $('#pwd').val();
+           var csrf = $("[name='csrfmiddlewaretoken']").val();
+           var params = 'uname=' + uname + '&pwd=' + pwd + '&csrfmiddlewaretoken=' + csrf;
+           //send
+           xhr.send(params);
+              
+        }
+
+     })
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+{% csrf_token %}
+<p>
+    用户名: <input type="text" id="uname">
+    <span id="show"></span>
+</p>
+<p>
+    密码: <input type="password" id="pwd">
+</p>
+<p>
+    <button id="btn">提交</button>
+</p>
+
+
+
+
+
+</body>
+</html>

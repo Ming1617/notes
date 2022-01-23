@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test_json</title>
+</head>
+<body>
+<script src="/static/js/jquery-1.11.3.js"></script>
+<button onclick="showJson()">测试json</button>
+
+<script>
+    function showJson(){
+        //json 表达单个对象
+        /*
+        var obj = {
+            "uname": "guoxiaonao",
+            "age": 18
+        }
+        console.log(obj.uname);
+        console.log(obj.age);*/
+
+        //json表达多个对象
+        var json_arr = [
+            {
+                "name": "wang",
+                "age": 18
+            },
+            {
+                "name": "guo",
+                "age": 19
+            }
+        ]
+        // js 循环 json数组
+        /*
+        for (var i=0; i<json_arr.length; i++){
+
+            console.log('name: ' + json_arr[i].name );
+            console.log('age: ' + json_arr[i].age );
+
+        }*/
+
+        // jquery v1 循环 json数组
+        /*
+        $(json_arr).each(function(i,obj){
+
+            console.log('index: ' + i);
+            console.log('name: ' + obj.name);
+            console.log('age: ' + obj.age);
+
+        })*/
+
+        //jquery v2 循环 json数组
+        /*
+        $.each(json_arr, function(i,obj){
+            console.log('name: ' + obj.name);
+        })*/
+
+
+        //xhr拿到的数据是json字符串,js需要将json传转化成json对象/js对象
+        var json_str = '[{"name": "guoxiaonao"}, {"name": "guoxiaonao2"}]'
+        console.log(json_str);
+        var json_obj = JSON.parse(json_str);
+        console.log(json_obj);
+    }
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/jquery-1.11.3.js"></script>
+    <script>
+        function checkuname() {
+            var ret = false;
+            //1.创建xhr
+            var xhr = createXhr();
+            var url = '/user/checkuname/?uname=' + $('#uname').val();
+            //2.创建请求
+            xhr.open('get', url, false);
+            //3.设置回调
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText == '1') {
+                        ret = true;
+                        $('#show').html('用户已存在');
+                    } else {
+                        $('#show').html('ok');
+                    }
+                }
+
+            }
+            //4.发送请求
+            xhr.send(null);
+            return ret
+        }
+        $(function () {
+            //uname绑定blur事件
+            $('#uname').blur(function () {
+                checkuname();
+            });
+            $('#btn').click(function () {
+                if (checkuname()) {
+                    alert('用户名已存在，不能注册');
+                } else {
+                    //post完成注册
+                    var xhr = createXhr();
+                    xhr.open('post', '/user/register/', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            alert(xhr.responseText);
+                        }
+                    }
+                    xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                    var uname=$('#uname').val();
+                    var pwd =$('#pwd').val();
+                    var nickname=$('#nickname').val();
+                    //csrf
+                    var csrf=$('[name="csrfmiddlewaretoken"]').val();
+                    var params='uname='+uname+'&pwd='+pwd+'&nickname='+nickname+'&csrfmiddlewaretoken='+csrf;
+                    xhr.send(params);
+
+                }
+
+            })
+        })
+
+
+
+        // $(function () {
+        //     //绑定blur事件
+        //     $("#uname").blur(function () {
+        //         //1.创建xhr
+        //         var xhr = createXhr();
+        //         //2.创建请求
+        //         var url = '/user/checkuname/?uname=' + $("#uname").val();
+        //         xhr.open('get', url, true);
+        //         //3.设置回调
+        //         xhr.onreadystatechange = function () {
+        //             if (xhr.readyState == 4 && xhr.status == 200) {
+        //                 $('#show').html(xhr.responseText);
+        //             }
+        //         }
+        //         xhr.send(null);
+        //     })
+        // })
+    </script>
+    {% csrf_token %}
+    <p>
+        用户名: <input type="text" id="uname">
+        <span id="show"></span>
+    </p>
+    <p>
+        密码： <input type="password" id="pwd">
+    </p>
+    <p>
+        昵称: <input type="text" id='nickname'>
+    </p>
+    <p>
+        <button id="btn">提交</button>
+    </p>
+
+
+
+
+
+</body>
+
+</html>

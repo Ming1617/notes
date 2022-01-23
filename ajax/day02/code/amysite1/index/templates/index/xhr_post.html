@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xhr_post</title>
+</head>
+<body>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/jquery-1.11.3.js"></script>
+
+<script>
+    $(function(){
+        $('#btn').click(function(){
+           //1.创建xhr
+           var xhr = createXhr();
+           //2.创建请求
+           xhr.open('post', '/index/xhr_post_server', true);
+           //3.设置回调
+           xhr.onreadystatechange = function(){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                    alert(xhr.responseText);
+                }
+           }
+            //4.取值 并 拼body里的数据
+            var username = $('#username').val();
+
+            var csrf = $("[name='csrfmiddlewaretoken']").val();
+            var params = "username=" + username + "&csrfmiddlewaretoken=" + csrf;
+
+            //改掉当前content-type头
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            //5. send
+            xhr.send(params);
+        });
+    })
+
+</script>
+
+
+
+{% csrf_token %}
+<p>
+    用户名： <input type="text" id="username">
+</p>
+<p>
+    <button id="btn">提交</button>
+</p>
+
+
+
+
+
+
+
+
+</body>
+</html>

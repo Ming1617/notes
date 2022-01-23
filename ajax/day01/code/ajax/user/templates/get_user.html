@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/jquery-1.11.3.js"></script>
+    <script>
+        $(function () {
+            $('#btn').click(function () {
+                var xhr = createXhr();
+                xhr.open('get', '/user/get_user_server/')
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var msg = xhr.responseText;
+                        //xxx_xxx_xxx|xxx_xxx_xxx
+                        var users = msg.split('|')
+                        var html = '';
+                        for (var i = 0; i < users.length; i++) {
+                            html += '<tr>';
+                            var info = users[i].split('_');
+                            html += '<td>' + info[0] + '</td>';
+                            html += '<td>' + info[1] + '</td>';
+                            html += '<td>' + info[2] + '</td>';
+                            html += '</tr>';
+                        }
+                        $('#show').html(html);
+                    }
+                }
+                xhr.send(null);
+            })
+        })
+    </script>
+
+
+    <button id="btn">显示所有用户</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <td>
+                    用户名
+                </td>
+                <td>
+                    密码
+                </td>
+                <td>
+                    昵称
+                </td>
+            </tr>
+        <tbody id="show"></tbody>
+        </thead>
+    </table>
+</body>
+
+</html>

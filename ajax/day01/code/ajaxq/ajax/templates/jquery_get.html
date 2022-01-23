@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script src="/static/jquery-1.11.3.js"></script>
+    <script>
+        $(function(){
+            $('#btn').click(function(){
+                var params={uname:'js obj',age:44}
+                $.get('/ajax/jquery_get_server/',params,function(data){
+                    var msg='name is '+data.uname;
+                    msg+=' age is'+data.age;
+                    $('#show').html(msg)
+                },'json')
+            })
+        })
+    </script>
+    <button id="btn">jq-ajax-get</button>
+    <div id="show"></div>
+</body>
+
+</html>

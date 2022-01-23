@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="/static/jquery-1.11.3.js"></script>
+    <script>
+        $(function(){
+            $('#btn').click(function(){
+                var params={
+                    uname:$('#uname').val(),
+                    age:$('#age').val(),
+                    csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                }
+                $.post('/ajax/jquery_post_server/',params,function(res){
+                    alert('server res is '+res.msg);
+                },'json');
+            })
+        })
+    </script>
+    {% csrf_token %}
+<p>
+    用户名：<input type="text" id='uname'>
+</p>
+<p>
+    年龄：<input type="text" id="age">
+</p>
+<p>
+    <button id="btn">提交</button>
+</p>
+</body>
+</html>

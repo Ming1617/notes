@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div><a href="/bookstore/add">添加新书</a></div>
+<table>
+
+    <tr>
+        <td>id</td>
+        <td>书名</td>
+        <td>出版社</td>
+        <td>定价</td>
+        <td>零售价</td>
+        <td>删除</td>
+        <td>修改</td>
+    </tr>
+    {% for abook in books %}
+    <tr>
+        <td>{{ abook.id }}</td>
+        <td>{{ abook.title }}</td>
+        <td>{{ abook.pub }}</td>
+        <td>{{ abook.price }}</td>
+        <td>{{ abook.market_price }}</td>
+        <td><a href="/bookstore/del/{{ abook.id }}">删除</a></td>
+        <td><a href="/bookstore/mod/{{ abook.id }}">修改</a><</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/jquery-1.11.3.js"></script>
+    <script>
+        $(function () {
+            $('#btn').click(function () {
+                //1.创建xhr
+                var xhr = createXhr();
+                //2.创建请求
+                xhr.open('post', '/user/make_post/', true);
+                //3.设置回调
+                xhr.onredystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        alert(xhr.responseText);
+                    }
+                }
+                //4.设置请求头-Content-Type
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                //5.发送请求 key=value&key1=value1
+                var uname = $('#uname').val();
+                var pwd = $('#pwd').val();
+                var csrf = $("[name='csrfmiddlewaretoken']").val()
+                //拼接post表单提交的参数
+                var params = "uname=" + uname + "&pwd=" + pwd + "&csrfmiddlewaretoken=" + csrf;
+                //6.发送post请求
+                xhr.send(params);
+            })
+
+
+        })
+    </script>
+
+
+
+    {% csrf_token %}
+    <p>
+        用户名：<input type="text" name="uname" id="uname">
+    </p>
+    <p>
+        密码： <input type="password" name="pwd" id="pwd">
+    </p>
+    <p>
+        <input type="button" id='btn' value="GOGOGO!">
+    </p>
+
+</body>
+
+</html>
